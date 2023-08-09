@@ -1,0 +1,545 @@
+using System;
+using static System.Console;
+using System.IO;
+using System.Text;
+
+namespace TrabalhoCRUD
+{
+class MainClass
+{
+public static void printMenu(String[] options)
+{
+foreach (String option in options)
+{
+WriteLine(option);
+}
+WriteLine("");
+ForegroundColor = ConsoleColor.Yellow;
+WriteLine("//|=> Digite opção <=|");
+ForegroundColor = ConsoleColor.White;
+ResetColor();
+WriteLine("");
+}
+
+    public static void Main(String[] args)
+    {
+        ForegroundColor = ConsoleColor.DarkRed;
+        WriteLine("|=>    CADASTRO DE ALUNOS (TDS10)   <=|");
+        WriteLine("");
+        WriteLine("|=>   Escolha as opções a seguir:   <=|");
+        WriteLine("");
+        ForegroundColor = ConsoleColor.DarkYellow;
+        String[] options = {
+                    "//|=> 1  -  Cadastro   <=|",
+                    "//|=> 2  -  Edição     <=|",
+                    "//|=> 3  -  Exclusão   <=|",
+                    "//|=> 4  -  Listar     <=|",
+                    "//|=> 5  -  Buscar     <=|",
+                    "//|=> 6  -  Média      <=|",
+                    "//|=> 7  -  Gravar     <=|",
+                    "//|=> 8  -  Ler        <=|",
+                    "//|=> 9  -  Sair       <=|",};
+        int option = 0;
+        while (true)
+        {
+            printMenu(options);
+            try
+            {
+                option = Convert.ToInt32(ReadLine());
+            }
+            catch (System.FormatException)
+            {
+                Clear();
+                ForegroundColor = ConsoleColor.DarkGreen;
+                WriteLine("|=>       Por favor, digite uma     <=|");
+                WriteLine("|=>         opção entre 1 e " + options.Length + "       <=|");
+                ForegroundColor = ConsoleColor.DarkYellow;
+                WriteLine();
+                continue;
+            }
+            catch (Exception)
+            {
+                Clear();
+                WriteLine();
+                ForegroundColor = ConsoleColor.DarkGreen;
+                WriteLine("|=>         Ocorreu um erro...      <=|");
+                WriteLine("|=>          Tente novamente!       <=|");
+                ForegroundColor = ConsoleColor.DarkYellow;
+                WriteLine();
+                continue;
+            }
+            switch (option)
+            {
+                case 1:
+                    Cadastrar();
+                    break;
+                case 2:
+                    Editar();
+                    break;
+                case 3:
+                    Excluir();
+                    break;
+                case 4:
+                    Listar();
+                    break;
+                case 5:
+                    Busca();
+                    break;
+                case 6:
+                    Media();
+                    break;
+                case 7:
+                    Gravar();
+                    break;
+                case 8:
+                    Ler();
+                    break;
+                case 9:
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Clear();
+                    ForegroundColor = ConsoleColor.DarkGreen;
+                    WriteLine("|=>       Por favor, digite uma     <=|");
+                    WriteLine("|=>         opção entre 1 e " + options.Length + "       <=|");
+                    ForegroundColor = ConsoleColor.DarkYellow;
+                    WriteLine();
+                    break;
+            }
+        }
+    }
+
+    static List<string> nomes = new List<string>();
+    static List<double> notas = new List<double>();
+    static List<double> notas2 = new List<double>();
+    static List<double> notas3 = new List<double>();
+    static List<double> notas4 = new List<double>();
+
+    private static void Cadastrar()
+    {
+        Clear();
+        ForegroundColor = ConsoleColor.DarkRed;
+        WriteLine("//|=     Cadastro do Aluno     = |");
+        WriteLine();
+        ForegroundColor = ConsoleColor.DarkYellow;
+        WriteLine("//|=   Digite o nome do Aluno  = |");
+        ForegroundColor = ConsoleColor.White;
+        nomes.Add(ReadLine());
+        ForegroundColor = ConsoleColor.Yellow;
+        WriteLine("//|=      Digite a 1° nota     = |");
+        ForegroundColor = ConsoleColor.White;
+        notas.Add(Convert.ToDouble(ReadLine()));
+        ForegroundColor = ConsoleColor.Yellow;
+        WriteLine("//|=      Digite a 2° nota     = |");
+        ForegroundColor = ConsoleColor.White;
+        notas2.Add(Convert.ToDouble(ReadLine()));
+        ForegroundColor = ConsoleColor.Yellow;
+        WriteLine("//|=      Digite a 3° nota     = |");
+        ForegroundColor = ConsoleColor.White;
+        notas3.Add(Convert.ToDouble(ReadLine()));
+        ForegroundColor = ConsoleColor.Yellow;
+        WriteLine("//|=      Digite a 4° nota     = |");
+        ForegroundColor = ConsoleColor.White;
+        notas4.Add(Convert.ToDouble(ReadLine()));
+        ResetColor();
+        Clear();
+        ForegroundColor = ConsoleColor.DarkYellow;
+    }
+
+    private static void Editar()
+    {
+        Clear();
+        ForegroundColor = ConsoleColor.DarkRed;
+        WriteLine("//|=        Editar Aluno       = |");
+        WriteLine();
+        string nome = "";
+        ForegroundColor = ConsoleColor.DarkGreen;
+        WriteLine("//|=  Escreva o nome do Aluno  = |");
+        WriteLine("//|=   que sofrerá mudanças:   = |");
+        ForegroundColor = ConsoleColor.White;
+        nome = ReadLine();
+        int index = nomes.IndexOf(nome);
+        if (index >= 0)
+        {
+            WriteLine();
+            ForegroundColor = ConsoleColor.DarkYellow;
+            WriteLine("//|= Registro que será editado = |");
+            WriteLine();
+            ForegroundColor = ConsoleColor.Yellow;
+            WriteLine($"//|=  Nome: {nomes[index]}");
+            WriteLine($"//|=  Nota 1º: {notas[index]}");
+            WriteLine($"//|=  Nota 2º: {notas2[index]}");
+            WriteLine($"//|=  Nota 3º: {notas3[index]}");
+            WriteLine($"//|=  Nota 4º: {notas4[index]}");
+            WriteLine();
+            ForegroundColor = ConsoleColor.DarkYellow;
+            WriteLine("//|=          (Edição)         = |");
+            WriteLine();
+            ForegroundColor = ConsoleColor.DarkYellow;
+            WriteLine("//|=     Digite novamente o    = |");
+            WriteLine("//|=       nome do aluno       = |");
+            ForegroundColor = ConsoleColor.White;
+            nomes[index] = ReadLine();
+            ForegroundColor = ConsoleColor.DarkYellow;
+            WriteLine();
+            WriteLine("//|=     Digite a nova nota    = |");
+            WriteLine();
+            ForegroundColor = ConsoleColor.Yellow;
+            WriteLine("//|=           Nota 1°         = |");
+            ForegroundColor = ConsoleColor.White;
+            notas[index] = Convert.ToDouble(ReadLine());
+            ForegroundColor = ConsoleColor.Yellow;
+            WriteLine("//|=           Nota 2°         = |");
+            ForegroundColor = ConsoleColor.White;
+            notas2[index] = Convert.ToDouble(ReadLine());
+            ForegroundColor = ConsoleColor.Yellow;
+            WriteLine("//|=           Nota 3°         = |");
+            ForegroundColor = ConsoleColor.White;
+            notas3[index] = Convert.ToDouble(ReadLine());
+            ForegroundColor = ConsoleColor.Yellow;
+            WriteLine("//|=           Nota 4°         = |");
+            ForegroundColor = ConsoleColor.White;
+            notas4[index] = Convert.ToDouble(ReadLine());
+            WriteLine();
+            ForegroundColor = ConsoleColor.DarkGreen;
+            WriteLine("//|=    Registro atualizado    = |");
+            WriteLine("//|=      com sucesso!!!       = |");
+            ResetColor();
+            Clear();
+            ForegroundColor = ConsoleColor.DarkYellow;
+        }
+        else
+        {
+            Clear();
+            ForegroundColor = ConsoleColor.DarkGreen;
+            WriteLine("//|=  Registro não encontrado  = |");
+            WriteLine();
+            ForegroundColor = ConsoleColor.DarkYellow;
+        }
+    }
+
+    private static void Excluir()
+    {
+        Clear();
+        ForegroundColor = ConsoleColor.DarkRed;
+        WriteLine("//|=    Exclusão de Registro   = |");
+        string nome = "";
+        WriteLine();
+        ForegroundColor = ConsoleColor.DarkGreen;
+        WriteLine("//|=   Digite o Registro que   = |");
+        WriteLine("//|=    você deseja excluir:   = |");
+        ForegroundColor = ConsoleColor.White;
+        nome = ReadLine();
+        int index = nomes.IndexOf(nome);
+        if (index >= 0)
+        {
+            ForegroundColor = ConsoleColor.DarkYellow;
+            WriteLine();
+            WriteLine("//|=     Registro que será     = |");
+            WriteLine("//|=          excluído:        = |");
+            WriteLine();
+            ForegroundColor = ConsoleColor.Yellow;
+            WriteLine($"//|=  Nome: {nomes[index]}");
+            WriteLine($"//|=  Nota 1º: {notas[index]}");
+            WriteLine($"//|=  Nota 2º: {notas2[index]}");
+            WriteLine($"//|=  Nota 3º: {notas3[index]}");
+            WriteLine($"//|=  Nota 4º: {notas4[index]}");
+            WriteLine();
+            nomes.RemoveAt(index);
+            notas.RemoveAt(index);
+            notas2.RemoveAt(index);
+            notas3.RemoveAt(index);
+            notas4.RemoveAt(index);
+            ForegroundColor = ConsoleColor.DarkGreen;
+            WriteLine("//|=    Registro removido!!!   = |");
+            ForegroundColor = ConsoleColor.DarkYellow;
+        }
+        else
+        {
+            Clear();
+            ForegroundColor = ConsoleColor.DarkGreen;
+            WriteLine("//|=  Registro não encontrado  = |");
+            ForegroundColor = ConsoleColor.DarkYellow;
+        }
+        WriteLine();
+    }
+
+    private static void Listar()
+    {
+        Clear();
+        ForegroundColor = ConsoleColor.DarkRed;
+        WriteLine("//|=           Listar          = |");
+        int pos = 0;
+        foreach (var item in nomes)
+        {
+            ForegroundColor = ConsoleColor.DarkYellow;
+            WriteLine();
+            WriteLine("==================================");
+            WriteLine("|=>          Aluno/Nota        <=|");
+            WriteLine("==================================");
+            WriteLine();
+            ForegroundColor = ConsoleColor.Yellow;
+            WriteLine($"Nome: {item}");
+            WriteLine($"1º Bimestre: {notas[pos]}");
+            WriteLine($"2º Bimestre: {notas2[pos]}");
+            WriteLine($"3º Bimestre: {notas3[pos]}");
+            WriteLine($"4º Bimestre: {notas4[pos]}");
+
+            double media = (notas[pos] + notas2[pos] + notas3[pos] + notas4[pos]) / 4.0;
+            ForegroundColor = ConsoleColor.DarkGreen;
+            WriteLine($"Média: {media}");
+            WriteLine();
+            pos++;
+        }
+        WriteLine();
+        ForegroundColor = ConsoleColor.DarkYellow;
+    }
+
+    private static void Busca()
+    {
+        Clear();
+        ForegroundColor = ConsoleColor.DarkRed;
+        WriteLine("//|=           Buscar          = |");
+        WriteLine();
+        string nome = "";
+        ForegroundColor = ConsoleColor.DarkGreen;
+        WriteLine("//|=  Escreva o nome do Aluno  = |"); 
+        WriteLine("//|=     que deseja buscar:    = |");
+        ForegroundColor = ConsoleColor.White;
+        nome = ReadLine();
+        int index = nomes.IndexOf(nome);
+        if (index >= 0)
+        {
+            WriteLine();
+            ForegroundColor = ConsoleColor.DarkYellow;
+            WriteLine("//|=    Registro Encontrado    = |");
+            WriteLine();
+            ForegroundColor = ConsoleColor.Yellow;
+            WriteLine($"Nome: {nomes[index]}");
+            WriteLine($"Nota 1º Bimestre: {notas[index]}");
+            WriteLine($"Nota 2º Bimestre: {notas2[index]}");
+            WriteLine($"Nota 3º Bimestre: {notas3[index]}");
+            WriteLine($"Nota 4º Bimestre: {notas4[index]}");
+
+            double media = (notas[index] + notas2[index] + notas3[index] + notas4[index]) / 4.0;
+            ForegroundColor = ConsoleColor.DarkGreen;
+            WriteLine($"Média: {media}");
+            ForegroundColor = ConsoleColor.DarkYellow;
+            WriteLine();
+        }
+        else
+        {
+            Clear();
+            ForegroundColor = ConsoleColor.DarkGreen;
+            WriteLine("//|=  Registro não encontrado! = |");
+            WriteLine();
+            ForegroundColor = ConsoleColor.DarkYellow;
+        }
+    }
+
+    private static void Media()
+    {
+        Clear();
+        ForegroundColor = ConsoleColor.DarkGray;
+        WriteLine("//|=           Listar          = |");
+        int pos = 0;
+        foreach (var item in nomes)
+        {
+            double media = (notas[pos] + notas2[pos] + notas3[pos] + notas4[pos]) / 4.0;
+            WriteLine();
+
+            if (media >= 7.0)
+            {
+                ForegroundColor = ConsoleColor.DarkBlue;
+                WriteLine("==============================");
+                WriteLine("=           APROVADO         =");
+                WriteLine("==============================");
+                ResetColor();
+            }
+            else if (media >= 5.0)
+            {
+                ForegroundColor = ConsoleColor.Green;
+                WriteLine("==============================");
+                WriteLine("=         RECUPERAÇÃO        =");
+                WriteLine("==============================");
+                ResetColor();
+            }
+            else
+            {
+                ForegroundColor = ConsoleColor.Red;
+                WriteLine("==============================");
+                WriteLine("=          REPROVADO         =");
+                WriteLine("==============================");
+                ResetColor();
+            }
+
+
+            if (media >= 7.0)
+            {
+                ForegroundColor = ConsoleColor.DarkBlue;
+                WriteLine();
+                WriteLine($"Nome: {item}");
+                WriteLine($"1º Bimestre: {notas[pos]}");
+                WriteLine($"2º Bimestre: {notas2[pos]}");
+                WriteLine($"3º Bimestre: {notas3[pos]}");
+                WriteLine($"4º Bimestre: {notas4[pos]}");
+                WriteLine($"Média: {media}");
+                WriteLine("Situação: APROVADO!!!");
+                WriteLine();
+                ResetColor();
+            }
+            else if (media >= 5.0)
+            {
+                ForegroundColor = ConsoleColor.Green;
+                WriteLine();
+                WriteLine($"Nome: {item}");
+                WriteLine($"1º Bimestre: {notas[pos]}");
+                WriteLine($"2º Bimestre: {notas2[pos]}");
+                WriteLine($"3º Bimestre: {notas3[pos]}");
+                WriteLine($"4º Bimestre: {notas4[pos]}");
+                WriteLine($"Média: {media}");
+                WriteLine("Situação: RECUPERAÇÃO!!!");
+                WriteLine();
+                ResetColor();
+            }
+            else
+            {
+                ForegroundColor = ConsoleColor.Red;
+                WriteLine();
+                WriteLine($"Nome: {item}");
+                WriteLine($"1º Bimestre: {notas[pos]}");
+                WriteLine($"2º Bimestre: {notas2[pos]}");
+                WriteLine($"3º Bimestre: {notas3[pos]}");
+                WriteLine($"4º Bimestre: {notas4[pos]}");
+                WriteLine($"Média: {media}");
+                WriteLine("Situação: REPROVADO!!!");
+                WriteLine();
+                ResetColor();
+            }
+            WriteLine();
+            pos++;
+            ForegroundColor = ConsoleColor.DarkYellow;
+        }
+    }
+
+
+    private static void Gravar()
+    {
+        Clear();
+        WriteLine();
+        ForegroundColor = ConsoleColor.DarkGray;
+        WriteLine("//|=     Gravando os Dados     = |");
+        try
+        {
+            WriteLine();
+
+            StreamWriter dados;
+            string arq = "C:\\Users\\Aluno\\source\\repos\\CRUDtrabalho\\CRUDtrabalho\\nomes.txt";
+            dados = File.CreateText(arq);
+            foreach (var item in nomes)
+            {
+                dados.WriteLine(item);
+            }
+            dados.Close();
+
+            StreamWriter dados1;
+            string arq1 = "C:\\Users\\Aluno\\source\\repos\\CRUDtrabalho\\CRUDtrabalho\\nota 1.txt";
+            dados1 = File.CreateText(arq1);
+            foreach (var item1 in notas)
+            {
+                dados1.WriteLine(item1);
+            }
+            dados1.Close();
+
+            StreamWriter dados2;
+            string arq2 = "C:\\Users\\Aluno\\source\\repos\\CRUDtrabalho\\CRUDtrabalho\\nota 2.txt";
+            dados2 = File.CreateText(arq2);
+            foreach (var item2 in notas2)
+            {
+                dados2.WriteLine(item2);
+            }
+            dados2.Close();
+
+            StreamWriter dados3;
+            string arq3 = "C:\\Users\\Aluno\\source\\repos\\CRUDtrabalho\\CRUDtrabalho\\nota 3.txt";
+            dados3 = File.CreateText(arq3);
+            foreach (var item3 in notas3)
+            {
+                dados3.WriteLine(item3);
+            }
+            dados3.Close();
+
+            StreamWriter dados4;
+            string arq4 = "C:\\Users\\Aluno\\source\\repos\\CRUDtrabalho\\CRUDtrabalho\\nota 4.txt";
+            dados4 = File.CreateText(arq4);
+            foreach (var item4 in notas4)
+            {
+                dados4.WriteLine(item4);
+            }
+            dados4.Close();
+        }
+        catch (Exception e)
+        {
+            ForegroundColor = ConsoleColor.DarkGreen;
+            WriteLine("Exception: " + e.Message);
+        }
+        finally
+        {
+            ForegroundColor = ConsoleColor.DarkGreen;
+            WriteLine("//|=       Dados gravados      = |");
+            WriteLine("//|=        com sucesso!       = |");
+            WriteLine();
+            ForegroundColor = ConsoleColor.DarkYellow;
+        }
+    }
+
+    private static void Ler()
+    {
+        Clear();
+        WriteLine();
+        ForegroundColor = ConsoleColor.DarkGray;
+        WriteLine("//|=     Lendo Arquivo TXT     = |");
+
+        var nome = File.ReadAllLines("C:\\Users\\Aluno\\source\\repos\\CRUDtrabalho\\CRUDtrabalho\\nomes.txt");
+
+        for (int i = 0; i < nome.Length; i++)
+        {
+            nomes.Add(nome[i]);
+        }
+
+        var nb1 = File.ReadAllLines("C:\\Users\\Aluno\\source\\repos\\CRUDtrabalho\\CRUDtrabalho\\nota 1.txt");
+
+        for (int x1 = 0; x1 < nb1.Length; x1++)
+        {
+            notas.Add(Convert.ToInt32(nb1[x1]));
+        }
+
+        var nb2 = File.ReadAllLines("C:\\Users\\Aluno\\source\\repos\\CRUDtrabalho\\CRUDtrabalho\\nota 2.txt");
+
+        for (int x2 = 0; x2 < nb2.Length; x2++)
+        {
+            notas2.Add(Convert.ToInt32(nb2[x2]));
+        }
+
+        var nb3 = File.ReadAllLines("C:\\Users\\Aluno\\source\\repos\\CRUDtrabalho\\CRUDtrabalho\\nota 3.txt");
+
+        for (int x3 = 0; x3 < nb3.Length; x3++)
+        {
+            notas3.Add(Convert.ToInt32(nb3[x3]));
+        }
+
+        var nb4 = File.ReadAllLines("C:\\Users\\Aluno\\source\\repos\\CRUDtrabalho\\CRUDtrabalho\\nota 4.txt");
+
+        for (int x4 = 0; x4 < nb4.Length; x4++)
+        {
+            notas4.Add(Convert.ToInt32(nb4[x4]));
+        }
+        WriteLine();
+        ForegroundColor = ConsoleColor.DarkGreen;
+        WriteLine("//|=     Leitura do arquivo    = |");
+        WriteLine("//|=   realizada com sucesso!  = |"); 
+        ForegroundColor = ConsoleColor.DarkYellow;
+        WriteLine();
+    }
+}
+}
