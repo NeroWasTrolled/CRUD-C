@@ -1,0 +1,126 @@
+//Gabriel França Dutra Simões
+//Em um restaurante Self-Service, o preço do quilo custa R$ 89,00. Crie um algoritmo que, para
+//cada cliente, leia o peso do prato e valor gasto com bebida e calcule o valor total da conta que o
+//cliente irá pagar [ valor da conta = bebida + (peso * preço do quilo) ]. Encerre a execução quando
+//o peso do prato digitado for igual a 0 e o valor da bebida for também igual a 0.
+//O restaurante da questão anterior realiza reservas de mesas através de ligações telefônicas e
+//possui 15 mesas disponíveis para reserva. Dessas mesas, 5 são na área de fumantes e 15 na
+//área de não fumantes. Para cada ligação recebida, o restaurante deve verificar se a reserva é
+//para a mesa na área de fumantes ou de não fumantes e contabilizar a quantidade de mesas
+//restantes disponíveis em cada área. Construa um algoritmo que realize a reserva
+//das mesas e encerre a execução quando não houver mais mesas disponíveis (nem na área de
+//fumantes, nem na área de não fumantes).
+//Assim, essa situação de aprendizagem está dividida nas seguintes etapas:
+//• Interpretação do problema
+//• Implementar o algoritmo em C
+//• Realizar os testes necessários
+
+#include <stdio.h>
+#include <locale.h>
+#include <stdlib.h>
+
+double quilo = 89.0;  //preço por quilo
+double peso, bebida;  //variáveis para armazenar o peso do prato e o valor da bebida
+int mesasFumantes = 5;  //quantidade inicial de mesas disponíveis para fumantes
+int mesasNaoFumantes = 15;  //quantidade inicial de mesas disponíveis para não fumantes
+
+int totalReservas = 0;  //total de reservas realizadas
+int mesasReservadas[20];  //vetor para armazenar os números das mesas reservadas
+
+void calcularConta() {
+    system("cls");  //limpa a tela
+    //calcula o peso, e pega o valor da bebida pegando assim o valor da conta final.
+    printf("| Digite o peso do prato (kg): "); 
+    scanf("%lf", &peso);
+    printf("| Digite o valor da bebida: ");
+    scanf("%lf", &bebida);
+    double conta = bebida + (peso * quilo);    
+    printf("| O valor da conta ficou: %.2f\n\n", conta);
+}
+
+void reservas() {
+    system("cls"); // Limpa a tela
+    char areaMesa;
+    printf("| Digite a área da mesa |\n");
+    printf("| Área para fumantes?\n |S - Sim|\n |N - Não|\n");
+    scanf(" %c", &areaMesa);
+    
+    if (areaMesa == 'S' || areaMesa == 's') { // Verifica se a reserva é para a área de fumantes
+        if (mesasFumantes > 0 && mesasNaoFumantes > 0) { // Verifica se ainda há mesas disponíveis em ambas as áreas
+            mesasFumantes--;
+            mesasReservadas[totalReservas] = 20 - mesasFumantes; // Armazena o número da mesa reservada no vetor
+            totalReservas++;
+            printf("| Mesa na área de fumantes |\n");
+            printf("|  reservada com sucesso.  |\n\n");
+        } else {
+            printf("| Não é possível fazer a reserva |\n");
+            printf("|       Tente Novamente!!!       |\n\n");
+        }
+    } else if (areaMesa == 'N' || areaMesa == 'n') { // Verifica se a reserva é para a área de não fumantes
+        if (mesasNaoFumantes > 0 && mesasFumantes > 0) { // Verifica se ainda há mesas disponíveis em ambas as áreas
+            mesasNaoFumantes--;
+            mesasReservadas[totalReservas] = 35 - mesasNaoFumantes; // Armazena o número da mesa reservada no vetor
+            totalReservas++;
+            printf("| Mesa na área de não fumantes |\n");
+            printf("|     reservada com sucesso.   |\n\n");
+        } else {
+            printf("| Não é possível fazer a reserva |\n");
+            printf("|       Tente Novamente!!!       |\n\n");
+        }
+    } else {
+        printf("Opção inválida.\n\n");
+    }
+}
+
+void exibirReservas() {
+    system("cls");  //limpa a tela
+    //aqui mostra as reservas feitas, para facilitar na hora do uso do programa
+    printf("| Total de reservas realizadas: %d\n", totalReservas); 
+    printf("\n");
+    printf("\n");
+    }
+
+
+void sair() {
+    system("cls");  //limpa a tela UwU
+    printf("Encerrando o programa.\n\n");
+}
+
+int main() {
+    setlocale(LC_ALL, "Portuguese"); 
+    int menu;
+
+    do {
+    	//aqui é um menu extremamente lindo, onde com base no switch case você escolhe qual opção deseja
+        printf("| ========================= |\n");
+        printf("|         Bem Vindo!        |\n");
+        printf("| ========================= |\n\n");
+        printf("| Escolha as opções a seguir|\n");
+        printf("      | 1 - PEDIDO   |\n");
+        printf("      | 2 - RESERVA  |\n");
+        printf("      | 3 - RESERVAS |\n");
+        printf("      | 4 - SAIR     |\n\n");
+        printf("| Digite sua opção: \n");
+        scanf("%d", &menu);
+
+        switch (menu) {
+            case 1:
+                calcularConta();
+                break;
+            case 2:
+                reservas();
+                break;
+            case 3:
+                exibirReservas();  //pausa a execução até que uma tecla seja pressionada
+                break;
+            case 4:
+                sair();
+                break;
+            default:
+                printf("Opção Inválida!\n\n");
+                break;
+        }
+    } while (menu != 4 && (mesasFumantes > 0 || mesasNaoFumantes > 0));
+
+    return 0;
+}
